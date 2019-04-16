@@ -3,21 +3,15 @@
 #include<unistd.h>
 #include<sys/wait.h>
 #include<stdlib.h>
-
 #define NEW 0
 #define READY 1
 #define WAITING 2
 #define RUNNING 3
 #define EXIT 4
-
 int currenttime=0,runningtime=0,ALLEXIT=0,CT=1,n;
 struct Proc 
-{
-	int pid;
-	int state;
-	int timeleft;
-	int at;
-	int wt,tat,ct,exect;
+{	
+	int pid,state,timeleft,at,wt,tat,ct,exect;
 	struct Proc *prev;
 	struct Proc *next;
 } *pa,*pa1;
@@ -33,8 +27,7 @@ void enqueue1(struct Proc *p)
 		ReadyQueue->front=p;
 		ReadyQueue->rear=p;
 		p->next=NULL;
-	}
-        
+	} 
 	else
 	{
 		if(p->timeleft<ReadyQueue->front->timeleft)
@@ -71,8 +64,7 @@ void enqueue1(struct Proc *p)
                    {
                           p->next=start->next;
                           start->next=p;
-                          p->prev=start;
-                      
+                          p->prev=start; 
                    }
                   else
                {
@@ -81,11 +73,9 @@ void enqueue1(struct Proc *p)
 		   p->prev=start->prev;
 		   start->prev=p;
                 }
-
 		}
 	}
 }
-
 void enqueue(struct Proc *p)
 {
 	if(ReadyQueue->front==NULL)
@@ -93,8 +83,7 @@ void enqueue(struct Proc *p)
 		ReadyQueue->front=p;
 		ReadyQueue->rear=p;
 		p->next=NULL;
-	}
-        
+	}  
 	else
 	{
 		if(p->timeleft>ReadyQueue->front->timeleft)
@@ -131,8 +120,7 @@ void enqueue(struct Proc *p)
                    {
                           p->next=start->next;
                           start->next=p;
-                          p->prev=start;
-                      
+                          p->prev=start;     
                    }
                   else
                {
@@ -141,7 +129,6 @@ void enqueue(struct Proc *p)
 		   p->prev=start->prev;
 		   start->prev=p;
                 }
-
 		}
 	}
 }
@@ -164,14 +151,12 @@ void checkqueue()
 {
 int count=0;
            for(int i=0;i<n;i++)
-	   {
-                   
+	   {    
 		   if(pa[i].state == NEW && currenttime>=pa[i].at)
 		   {      
 			   
 			   enqueue(&pa[i]);
-			   pa[i].state=READY;
-			   
+			   pa[i].state=READY;   
                     }
                   if(pa[i].state==EXIT)
                   {
@@ -180,22 +165,19 @@ int count=0;
 	   }
 	   if(count==n)
 	   {
-		  ALLEXIT=1; 
-		  
+		  ALLEXIT=1; 	  
 	   }
 }
 void checkqueue1()
 {
 int count=0;
            for(int i=0;i<n;i++)
-	   {
-                   
+	   {    
 		   if(pa1[i].state == NEW && currenttime>=pa1[i].at)
 		   {      
 			   
 			   enqueue1(&pa1[i]);
-			   pa1[i].state=READY;
-			   
+			   pa1[i].state=READY;   
                     }
                   if(pa1[i].state==EXIT)
                   {
@@ -204,15 +186,11 @@ int count=0;
 	   }
 	   if(count==n)
 	   {
-		  ALLEXIT=1; 
-		  
+		  ALLEXIT=1;   
 	   }
 }
-
 int main()
 {
-
-
 ReadyQueue =(struct Queue*) malloc(sizeof(struct Queue));
 	printf("Please enter No of processes to schedule");
 	scanf("%d",&n);
@@ -228,8 +206,7 @@ ReadyQueue =(struct Queue*) malloc(sizeof(struct Queue));
 	     
             pa[i].exect=pa[i].timeleft;
 	    pa[i].state=NEW;
-	    pa1[i]=pa[i];
-	        
+	    pa1[i]=pa[i];        
 	}
  struct Proc key; 
     int i,j;
@@ -243,7 +220,6 @@ ReadyQueue =(struct Queue*) malloc(sizeof(struct Queue));
         } 
         pa[j + 1] = key; 
     } 
-
 struct Proc *pr;
 struct Proc *prev;
 printf("\n-----------------------------------------------------------------------------------------------------------------------------------------------------\n");
@@ -252,10 +228,8 @@ while(1)
         checkqueue();
         if(ALLEXIT==1)
         {
-
                     break;      
-        }
-        
+        } 
         if(ReadyQueue->front!=NULL && CT==1)
 	{
              runningtime=1;
@@ -304,15 +278,10 @@ while(1)
                   pr->tat=currenttime-(pr->at);
                   pr->wt=(pr->tat)-(pr->exect);
              }            
-          
             else
           { 
               CT=0;
 	  }
-
-          
-             
-          
 	}
 else
 {
@@ -334,10 +303,8 @@ while(1)
         checkqueue1();
         if(ALLEXIT==1)
         {
-
                     break;      
-        }
-        
+        } 
         if(ReadyQueue->front!=NULL && CT==1)
 	{
              runningtime=1;
@@ -386,15 +353,10 @@ while(1)
                   pr->tat=currenttime-(pr->at);
                   pr->wt=(pr->tat)-(pr->exect);
              }            
-          
             else
           { 
               CT=0;
-	  }
-
-          
-             
-          
+	  }  
 	}
 else
 {
